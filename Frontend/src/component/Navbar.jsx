@@ -1,13 +1,15 @@
 import React from 'react'
 import { useState } from 'react'
 import { useEffect } from 'react'
-import Login from "../component/Login"
-import Contact from "../component/Contact"
-import { Link } from "react-router-dom";
+import Login from "./Login"
+import Logout from "./Logout";
+import { useAuth } from "../context/AuthProvider";
 
 
 
 const Navbar = () => {
+  const [authUser,setAuthUser]=useAuth()
+
   const [theme, setTheme] = useState(localStorage.getItem("theme") ? localStorage.getItem("theme") : "light")
   const element = document.documentElement;
   useEffect(() => {
@@ -41,7 +43,7 @@ const Navbar = () => {
     <>
       <li>
         <a href="/">Home</a></li>
-      <li><a href="/course">Course</a></li>
+      <li><a href="/course">Course</a></li> 
       <li><a href="/contact" onClick={() => document.getElementById("my_modal_4").showModal()}>Contact</a></li>
       
       <li><a>About</a></li>
@@ -90,10 +92,14 @@ const Navbar = () => {
 
 
             </label>
+            {authUser ? (
+              <Logout />
+            ) : (
             <div className="">
               <a className="bg-black text-white px-3 py-2 rounded-md hover:bg-slate-800 duration-300 cursor-pointer" onClick={() => document.getElementById("my_modal_3").showModal()}>Login</a>
               <Login />
             </div>
+            )}
           </div>
         </div>
 
